@@ -6,5 +6,5 @@ import retrofit2.http.GET
 
 interface FactInterface {
     @GET("/facts/random")
-     fun getFact(): Call<CatFactItem>
+    suspend fun getFact(): CatFactItem
 }

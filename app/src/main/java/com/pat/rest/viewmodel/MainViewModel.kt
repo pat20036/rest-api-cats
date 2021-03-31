@@ -6,30 +6,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pat.rest.CatInterface
 import com.pat.rest.model.CatFactItem
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 
 class MainViewModel(private val catInterface: CatInterface): ViewModel() {
 
     private val _catFactLiveData = MutableLiveData<CatFactItem>()
     val catFactLiveData: LiveData<CatFactItem> get() = _catFactLiveData
 
-    fun getFact()
-    {
-           catInterface.provideCatApi().getFact().enqueue(object : Callback<CatFactItem>{
-               override fun onResponse(call: Call<CatFactItem>, response: Response<CatFactItem>) {
-                   _catFactLiveData.value = response.body()
-                   Log.d("qqq", _catFactLiveData.value.toString())
-               }
+    fun getFact() {
+        CoroutineScope(Dispatchers.Default).launch {
+            try {
+                _catFactLiveData.postValue(catInterface.provideCatApi().getFact())
+            } catch (e: Exception){
+                Log.d("e", e.message.toString())
+            }
 
-               override fun onFailure(call: Call<CatFactItem>, t: Throwable) {
-
-               }
-
-           })
-
-
+        }
     }
 
 

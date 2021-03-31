@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.Observer
 import com.pat.rest.viewmodel.MainViewModel
 import com.pat.rest.databinding.ActivityMainBinding
-import com.pat.rest.model.CatFactItem
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.VISIBLE
             mainViewModel.getFact()
         }
-
     }
 
     private fun observeFactItem() {
